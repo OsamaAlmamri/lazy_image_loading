@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ottergram</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="stylesheets/styles.css" >
+    <link rel="stylesheet" href="stylesheets/normalize.css.css" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" >
+    <script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+    <script src="js/lozad.min.js"></script>
+</head>
+<body>
+
+<header>
+    <h1 class="logo-text">ottergram</h1>
+</header>
+<ul>
+    <li class="thumbnail-item">
+        <a href="#">
+
+            <img  id="myimage" onfocus="imageHover(this)"  class="lazy thumbnail-image"  src="img/back.jpg" data-src="img/IMG_3995.JPG" data-srcset="img/IMG_3995.JPG" alt="I'm an image!">
+            <span class="thumbnail-title">Barry</span>
+
+
+        </a>
+    </li>
+
+    <li class="thumbnail-item">
+        <a href="#">
+            <img onfocus="imageHover(this)" data-src="https://images.unsplash.com/photo-1562184647-7c5c35548033?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" class="lozad thumbnail-image"  alt="Barry the Otter">
+            <span class="thumbnail-title">Barry</span>
+        </a>
+    </li>
+    <li class="thumbnail-item">
+        <a href="#">
+            <img class="lazy thumbnail-image"  src="img/back.jpg" data-src="img/otter2" data-srcset="img/otter2.jpg" alt="I'm an image!">
+            <span class="thumbnail-title">Barry</span>
+        </a>
+    </li>
+    <li class="thumbnail-item">
+        <a href="#">
+            <img class="lazy thumbnail-image"  src="img/back.jpg" data-src="img/otter3" data-srcset="img/otter3.jpg" alt="I'm an image!">
+
+            <span  class="thumbnail-title">Robin</span>
+        </a>
+    </li>
+    <li class="thumbnail-item">
+        <a href="#">
+            <img class="lazy thumbnail-image"  src="img/back.jpg" data-src="img/otter4" data-srcset="img/otter4.jpg" alt="I'm an image!">
+            <span class="thumbnail-title">Maurice</span>
+        </a>
+    </li>
+    <li class="thumbnail-item">
+        <a href="#">
+            <img class="lazy thumbnail-image"  src="img/back.jpg" data-src="img/otter5" data-srcset="img/otter5.jpg" alt="I'm an image!">
+            <span class="thumbnail-title">Lesley</span>
+        </a>
+    </li>
+
+</ul>
+
+
+<script>
+
+//    function imageHover(e) {
+//        alert("zzz");
+//    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
+        var active = false;
+
+        const lazyLoad = function() {
+            if (active === false) {
+                active = true;
+
+                setTimeout(function() {
+                    lazyImages.forEach(function(lazyImage) {
+                        if ((lazyImage.getBoundingClientRect().top <= window.innerHeight && lazyImage.getBoundingClientRect().bottom >= 0) && getComputedStyle(lazyImage).display !== "none") {
+                            lazyImage.src = lazyImage.dataset.src;
+                            lazyImage.srcset = lazyImage.dataset.srcset;
+                            lazyImage.classList.remove("lazy");
+
+                            lazyImages = lazyImages.filter(function(image) {
+                                return image !== lazyImage;
+                            });
+
+                            if (lazyImages.length === 0) {
+                                document.removeEventListener("scroll", lazyLoad);
+                                window.removeEventListener("resize", lazyLoad);
+                                window.removeEventListener("orientationchange", lazyLoad);
+                            }
+                        }
+                    });
+
+                    active = false;
+                }, 1000);
+            }
+        };
+
+        document.addEventListener("scroll", lazyLoad);
+        window.addEventListener("resize", lazyLoad);
+        window.addEventListener("orientationchange", lazyLoad);
+    });
+
+
+    ////1 way///
+//    const observer = lozad(); // lazy loads elements with default selector as '.lozad'
+//    observer.observe();
+
+//       2 way   ///
+//    const observer = lozad('.lozad', {
+//        rootMargin: '10px 0px', // syntax similar to that of CSS Margin
+//        threshold: 0.1 // ratio of element convergence
+//    });
+//    observer.observe();
+//
+
+
+    ////3 away
+
+//    const el = document.querySelector('img');
+//    const observer = lozad(el); // passing a `NodeList` (e.g. `document.querySelectorAll()`) is also valid
+//    observer.observe();
+//
+
+    function imageZoom(imgID, resultID) {
+        var img, lens, result, cx, cy;
+        img = document.getElementById(imgID);
+        result = document.getElementById(resultID);
+        /*create lens:*/
+        lens = document.createElement("DIV");
+        lens.setAttribute("class", "img-zoom-lens");
+        /*insert lens:*/
+        img.parentElement.insertBefore(lens, img);
+        /*calculate the ratio between result DIV and lens:*/
+        cx = result.offsetWidth / lens.offsetWidth;
+        cy = result.offsetHeight / lens.offsetHeight;
+        /*set background properties for the result DIV:*/
+        result.style.backgroundImage = "url('" + img.src + "')";
+        result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
+        /*execute a function when someone moves the cursor over the image, or the lens:*/
+        lens.addEventListener("mousemove", moveLens);
+        img.addEventListener("mousemove", moveLens);
+        /*and also for touch screens:*/
+        lens.addEventListener("touchmove", moveLens);
+        img.addEventListener("touchmove", moveLens);
+        function moveLens(e) {
+            var pos, x, y;
+            /*prevent any other actions that may occur when moving over the image:*/
+            e.preventDefault();
+            /*get the cursor's x and y positions:*/
+            pos = getCursorPos(e);
+            /*calculate the position of the lens:*/
+            x = pos.x - (lens.offsetWidth / 2);
+            y = pos.y - (lens.offsetHeight / 2);
+            /*prevent the lens from being positioned outside the image:*/
+            if (x > img.width - lens.offsetWidth) {x = img.width - lens.offsetWidth;}
+            if (x < 0) {x = 0;}
+            if (y > img.height - lens.offsetHeight) {y = img.height - lens.offsetHeight;}
+            if (y < 0) {y = 0;}
+            /*set the position of the lens:*/
+            lens.style.left = x + "px";
+            lens.style.top = y + "px";
+            /*display what the lens "sees":*/
+            result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
+        }
+        function getCursorPos(e) {
+            var a, x = 0, y = 0;
+            e = e || window.event;
+            /*get the x and y positions of the image:*/
+            a = img.getBoundingClientRect();
+            /*calculate the cursor's x and y coordinates, relative to the image:*/
+            x = e.pageX - a.left;
+            y = e.pageY - a.top;
+            /*consider any page scrolling:*/
+            x = x - window.pageXOffset;
+            y = y - window.pageYOffset;
+            return {x : x, y : y};
+        }
+    }
+    imageZoom("myimage", "myresult");
+
+function imageHover(e)
+{
+//    alert("sss");
+console.log("Ssssssssssssssssssssss");
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,113 @@
+
+@keyframes imageHover {
+    from {
+        opacity: .2;
+    }
+    to   { opacity: 1;}
+}
+
+
+@font-face {
+    font-family: 'lakeshore';
+    src: url('../fonts/LAKESHOR-webfont.eot');
+    src: url('../fonts/LAKESHOR-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/LAKESHOR-webfont.woff') format('woff'),
+    url('../fonts/LAKESHOR-webfont.ttf') format('truetype'),
+    url('../fonts/LAKESHOR-webfont.svg#lakeshore') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+body
+{
+    font-size: 10px;
+}
+header ,footer
+{
+    margin: 0;
+    padding: 8px 4px;
+    background:cornflowerblue;
+    color: inherit;
+
+}
+
+.thumbnail-list
+{
+    list-style: none;
+    padding: 0;
+}
+
+.thumbnail-item{
+    display: block;
+
+    border: 1px solid rgb(100%, 100%, 100%);
+    border: 1px solid rgba(100%, 100%, 100%, 0.8);
+
+    list-style-type: none;
+
+
+}
+.thumbnail-title {
+    display: block;
+    margin: 0;
+    padding: 4px 10px;
+    text-align: center;
+
+
+    background: rgb(96, 125, 139);
+    color: rgb(202, 238, 255);
+    border: 1px solid black;
+
+    font-size: 18px;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+
+.thumbnail-image {
+    display: block;
+    width: 100%;
+    /*opacity: .2;*/
+
+    animation: imageHover 10s linear infinite;
+
+}
+.thumbnail-image:hover {
+
+    /*opacity: 1;*/
+}
+
+
+
+.logo-text {
+    background: white;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 37px;
+    font-family: "lakeshore";
+}
+
+
+
+.img-zoom-container {
+    position: relative;
+}
+
+.img-zoom-lens {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    /*set the size of the lens:*/
+    width: 40px;
+    height: 40px;
+}
+
+.img-zoom-result {
+    border: 1px solid #d4d4d4;
+    /*set the size of the result div:*/
+    width: 300px;
+    height: 300px;
+}
